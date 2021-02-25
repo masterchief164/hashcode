@@ -2,18 +2,19 @@
 using namespace std;
 class street{
     public:
-    street *start;
-    street *end;
+    intersection *start;
+    intersection *end;
     long long length;
     string name;
 };
 class intersection{
     public:
-    int l;
-    vector<string> incoming;
-    vector<string> outgoing;
+    vector<street> incoming;
+    vector<street> outgoing;
 };
 class cars{
     public:
+    long long noofstreets;
+    vector<intersection> points;
 
 };
