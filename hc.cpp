@@ -53,9 +53,9 @@ void readfile()
         {
 
         }
-        cout<<s<<"\n";
-        filena.close();
+        cout << s << "\n";
     }
+    filena.close();
 }
 int main()
 {
