@@ -29,6 +29,7 @@ public:
 
 ll simtime, nointer, nostr, nocar, bp;
 unordered_map<string, street> streetmap;
+unordered_map<ll, intersection> intersectionmap;
 vector<cars> carsvec;
 
 void readfile()
@@ -77,7 +78,7 @@ void readfile()
             for (ll i = 0; i < nopath; i++)
             {
                 carob.streetname.push_back(ele[i + 1]);
-                carob.points.push_back(streetmap[ele[i+1]]);
+                carob.points.push_back(streetmap[ele[i + 1]]);
             }
             carsvec.push_back(carob);
         }
@@ -87,10 +88,44 @@ void readfile()
 
 void process_data()
 {
-
+    for (auto x : streetmap)
+    {
+        street ob = x.second;
+        intersection obj;
+        if (intersectionmap.find(ob.begid) != intersectionmap.end())
+        {
+            obj = intersectionmap[ob.begid];
+        }
+        else
+        {
+            intersectionmap[ob.begid] = obj;
+        }
+        obj.incoming.push_back(x.second);
+        intersection obje;
+        if (intersectionmap.find(ob.endid) != intersectionmap.end())
+        {
+            obje = intersectionmap[ob.endid];
+        }
+        else
+        {
+            intersectionmap[ob.endid] = obje;
+        }
+        obje.outgoing.push_back(x.second);
+    }
 }
-
+void print_data(){
+    cout<<intersectionmap.size()<<"\n";
+    for(auto x:intersectionmap){
+        cout<<x.first<<"\n";
+        cout<<x.second.incoming.size()<<"\n";
+        for(auto k:x.second.incoming){
+            cout<<k.name<<" 1"<<"\n";
+        }
+    }
+}
 int main()
 {
     readfile();
+    process_data();
+    print_data();
 }
