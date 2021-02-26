@@ -44,7 +44,7 @@ void readfile() // reads all the raw data and converts it into the objects
         string delimiter = " ";
         auto start = 0U;
         auto end = s.find(delimiter);
-        while (end != std::string::npos)
+        while (end != string::npos)
         {
             ele.push_back(s.substr(start, end - start));
             start = end + delimiter.length();
@@ -63,8 +63,8 @@ void readfile() // reads all the raw data and converts it into the objects
         else if (c <= nostr) // this block runs nostr times
         {
             street streetob;                // creating a street object
-            streetob.begid = stoi(ele[0]);  // storing the id of the intersection from where the street starts
-            streetob.endid = stoi(ele[1]);  // storing the id of the intersection from where the street ends
+            streetob.begid = stoi(ele[1]);  // storing the id of the intersection from where the street starts
+            streetob.endid = stoi(ele[0]);  // storing the id of the intersection from where the street ends
             streetob.name = ele[2];         //stores the street name
             streetob.length = stoi(ele[3]); //stores the street length
             c++;
