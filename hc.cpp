@@ -3,42 +3,42 @@
 #define ll long long
 using namespace std;
 
-class street
+class street//street class
 {
 public:
-    long long length;
-    string name;
-    ll begid;
-    ll endid;
+    long long length;//stores length of street
+    string name;//stores name of street
+    ll begid;//stores id of the intersection from where the street starts
+    ll endid;//stores id of the intersection from where the street ends
 };
 
-class intersection : public street
+class intersection : public street//intersection class inherits street
 {
 public:
-    vector<street> incoming;
-    vector<street> outgoing;
+    vector<street> incoming;//stores objects of all the incoming streets
+    vector<street> outgoing;//stores objects of all the outgoing streets
 };
 
-class cars : public street
+class cars : public street// cars class
 {
 public:
-    long long noofstreets;
-    vector<street> points;
-    vector<string> streetname;
+    long long noofstreets;//stores the no of streets it passes through
+    vector<street> points;//stores the objects of all the streets it passes through
+    vector<string> streetname;//stores names of all the streets it passes through
 };
 
 ll simtime, nointer, nostr, nocar, bp;
-unordered_map<string, street> streetmap;
-unordered_map<ll, intersection> intersectionmap;
-vector<cars> carsvec;
+unordered_map<string, street> streetmap;//map relates names of street to corresponding objects
+unordered_map<ll, intersection> intersectionmap;//map relates ids of intersection to corresponding intersections
+vector<cars> carsvec;//stores all the objects of cars
 
-void readfile()
+void readfile()// reads all the raw data and converts it into the objects
 {
     string s;
-    ifstream filena("a.txt");
-    ll c = 0;
+    ifstream filena("a.txt");//opens the file
+    ll c = 0;//counter variable
 
-    while (getline(filena, s))
+    while (getline(filena, s))// reads the file line by line
     {
         vector<string> ele;
         string delimiter = " ";
