@@ -86,22 +86,22 @@ void readfile() // reads all the raw data and converts it into the objects
     filena.close(); // file read complete
 }
 
-void process_data()
+void process_data() // here the intersections are created
 {
-    for (auto x : streetmap)
+    for (auto x : streetmap) // going through the street one by one
     {
-        street ob = x.second;
-        intersection obj;
-        if (intersectionmap.find(ob.begid) != intersectionmap.end())
+        street ob = x.second;                                        //stores the object of the current street
+        intersection obj;                                            // creating a new intersection object
+        if (intersectionmap.find(ob.begid) != intersectionmap.end()) // checking if the intersection already exists
         {
-            obj = intersectionmap[ob.begid];
+            obj = intersectionmap[ob.begid]; //if yes the obj contains the found object
         }
         else
         {
-            intersectionmap[ob.begid] = obj;
+            intersectionmap[ob.begid] = obj; // else mapping the newly created object
         }
-        obj.incoming.push_back(x.second);
-        intersection obje;
+        obj.incoming.push_back(x.second); // storing the incoming street object in the intersction
+        intersection obje;                // same thing as above for outgoing street
         if (intersectionmap.find(ob.endid) != intersectionmap.end())
         {
             obje = intersectionmap[ob.endid];
@@ -115,15 +115,15 @@ void process_data()
 }
 void print_data()
 {
-    cout << intersectionmap.size() << "\n";
-    for (auto x : intersectionmap)
+    cout << intersectionmap.size() << "\n"; // printing the total no of intersections
+    for (auto x : intersectionmap)          //going through the intersections one by one
     {
-        cout << x.first << "\n";
-        cout << x.second.incoming.size() << "\n";
-        for (auto k : x.second.incoming)
+        cout << x.first << "\n";                  // printing the intersection id
+        cout << x.second.incoming.size() << "\n"; // printing the no of incoming streets
+        for (auto k : x.second.incoming)          // going through the incoming streets
         {
             cout << k.name << " 1"
-                 << "\n";
+                 << "\n"; // printing the incoming names and the schedule
         }
     }
 }
