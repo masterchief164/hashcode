@@ -10,6 +10,7 @@ public:
     string name;      //stores name of street
     ll begid;         //stores id of the intersection from where the street starts
     ll endid;         //stores id of the intersection from where the street ends
+    bool used;        // stores whether the street has been used
 };
 
 class intersection : public street //intersection class inherits street
@@ -30,13 +31,13 @@ public:
 ll simtime, nointer, nostr, nocar, bp;
 map<string, street *> streetmap;         //map relates names of street to corresponding objects
 map<ll, intersection *> intersectionmap; //map relates ids of intersection to corresponding intersections
-vector<cars *> carsvec;                            //stores all the objects of cars
+vector<cars *> carsvec;                  //stores all the objects of cars
 
-void readfile() // reads all the raw data and converts it into the objects
+void readfile(string name) // reads all the raw data and converts it into the objects
 {
     string s;
-    ifstream filena("f.txt"); //opens the file
-    ll c = 0;                 //counter variable
+    ifstream filena(name); //opens the file
+    ll c = 0;              //counter variable
 
     while (getline(filena, s)) // reads the file line by line
     {
@@ -67,6 +68,7 @@ void readfile() // reads all the raw data and converts it into the objects
             streetob->endid = stoi(ele[0]);  // storing the id of the intersection from where the street ends
             streetob->name = ele[2];         //stores the street name
             streetob->length = stoi(ele[3]); //stores the street length
+            streetob->used = false;          //stores used as false initially
             c++;
             streetmap[streetob->name] = streetob; // mapping object to street name
         }
@@ -79,6 +81,7 @@ void readfile() // reads all the raw data and converts it into the objects
             {
                 carob->streetname.push_back(ele[i + 1]);        // storing the street names
                 carob->points.push_back(streetmap[ele[i + 1]]); // storing the corresponding street object
+                streetmap[ele[i + 1]]->used = true;             //changes the used attribute to true
             }
             carsvec.push_back(carob); // storing the car object in a vector
         }
@@ -118,35 +121,51 @@ void print_data()
     cout << intersectionmap.size() << "\n"; // printing the total no of intersections
     for (auto x : intersectionmap)          //going through the intersections one by one
     {
-        cout << x.first << "\n";                   // printing the intersection id
-        cout << x.second->incoming.size() << "\n"; // printing the no of incoming streets
-        for (auto k : x.second->incoming)          // going through the incoming streets
+        cout << x.first << "\n"; // printing the intersection id
+        ll c = 0;
+        for (auto k : x.second->incoming)
+            if (k->used)
+                c++;
+        cout << c << "\n";                // printing the no of incoming streets
+        for (auto k : x.second->incoming) // going through the incoming streets
         {
-            cout << k->name << " 1"
-                 << "\n"; // printing the incoming names and the schedule
+            if (k->used)
+                cout << k->name << " 1"
+                     << "\n"; // printing the incoming names and the schedule
         }
     }
 }
-void write_data(){
+void write_data(string name)
+{
     ofstream fileout;
-    fileout.open("ansf.txt");
-    fileout<<to_string(intersectionmap.size())+"\n";
-    for (auto x : intersectionmap)          //going through the intersections one by one
+    fileout.open(name);
+    fileout << to_string(intersectionmap.size()) + "\n";
+    for (auto x : intersectionmap) //going through the intersections one by one
     {
-        fileout << x.first << "\n";                   // printing the intersection id
-        fileout << x.second->incoming.size() << "\n"; // printing the no of incoming streets
-        for (auto k : x.second->incoming)          // going through the incoming streets
+        fileout << x.first << "\n"; // printing the intersection id
+        ll c = 0;
+        for (auto k : x.second->incoming)
+            if (k->used)
+                c++;
+        fileout << c << "\n";             // printing the no of incoming streets
+        for (auto k : x.second->incoming) // going through the incoming streets
         {
-            fileout << k->name << " 1"
-                 << "\n"; // printing the incoming names and the schedule
+            if (k->used)
+                fileout << k->name << " 1"
+                        << "\n"; // printing the incoming names and the schedule
         }
     }
     fileout.close();
 }
 int main()
 {
-    readfile();
-    process_data();
-    print_data();
-    write_data();
+    string fname[] = {"a.txt", "a.txt", "a.txt", "a.txt", "a.txt", "a.txt"};
+    string outname[] = {"ansa.txt", "ansa.txt", "ansa.txt", "ansa.txt", "ansa.txt", "ansa.txt"};
+    for (int i = 0; i < 6; i++)
+    {
+        readfile(fname[i]);
+        process_data();
+        print_data();
+        write_data(outname[i]);
+    }
 }
