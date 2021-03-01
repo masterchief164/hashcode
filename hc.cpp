@@ -118,20 +118,34 @@ void process_data() // here the intersections are created
 }
 void print_data()
 {
-    cout << intersectionmap.size() << "\n"; // printing the total no of intersections
-    for (auto x : intersectionmap)          //going through the intersections one by one
+    ll i = 0;
+    for (auto x : intersectionmap)
     {
-        cout << x.first << "\n"; // printing the intersection id
         ll c = 0;
         for (auto k : x.second->incoming)
             if (k->used)
                 c++;
-        cout << c << "\n";                // printing the no of incoming streets
-        for (auto k : x.second->incoming) // going through the incoming streets
-        {
+        if (c != 0)
+            i++;
+    }
+    cout << i << "\n"; // printing the total no of intersections
+    for (auto x : intersectionmap) //going through the intersections one by one
+    {
+
+        ll c = 0;
+        for (auto k : x.second->incoming)
             if (k->used)
-                cout << k->name << " 1"
-                     << "\n"; // printing the incoming names and the schedule
+                c++;
+        if (c != 0)
+        {
+            cout << x.first << "\n";          // printing the intersection id
+            cout << c << "\n";                // printing the no of incoming streets
+            for (auto k : x.second->incoming) // going through the incoming streets
+            {
+                if (k->used)
+                    cout << k->name << " 1"
+                         << "\n"; // printing the incoming names and the schedule
+            }
         }
     }
 }
@@ -139,33 +153,46 @@ void write_data(string name)
 {
     ofstream fileout;
     fileout.open(name);
-    fileout << to_string(intersectionmap.size()) + "\n";
-    for (auto x : intersectionmap) //going through the intersections one by one
+    ll i = 0;
+    for (auto x : intersectionmap)
     {
-        fileout << x.first << "\n"; // printing the intersection id
         ll c = 0;
         for (auto k : x.second->incoming)
             if (k->used)
                 c++;
-        fileout << c << "\n";             // printing the no of incoming streets
-        for (auto k : x.second->incoming) // going through the incoming streets
-        {
+        if (c != 0)
+            i++;
+    }
+    fileout << i << "\n"; // printing the total no of intersections
+    
+    for (auto x : intersectionmap) //going through the intersections one by one
+    {
+
+        ll c = 0;
+        for (auto k : x.second->incoming)
             if (k->used)
-                fileout << k->name << " 1"
-                        << "\n"; // printing the incoming names and the schedule
+                c++;
+        if (c != 0)
+        {
+            fileout << x.first << "\n";       // printing the intersection id
+            fileout << c << "\n";             // printing the no of incoming streets
+            for (auto k : x.second->incoming) // going through the incoming streets
+            {
+                if (k->used)
+                    fileout << k->name << " 1"
+                            << "\n"; // printing the incoming names and the schedule
+            }
         }
     }
     fileout.close();
 }
 int main()
 {
-    string fname[] = {"a.txt", "a.txt", "a.txt", "a.txt", "a.txt", "a.txt"};
-    string outname[] = {"ansa.txt", "ansa.txt", "ansa.txt", "ansa.txt", "ansa.txt", "ansa.txt"};
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 1; i++)
     {
-        readfile(fname[i]);
+        readfile("f.txt");
         process_data();
         print_data();
-        write_data(outname[i]);
+        write_data("ansf.txt");
     }
 }
